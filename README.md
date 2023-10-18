@@ -17,4 +17,5 @@ En estos se encuentra el desarrollo consecuente del proyecto y cada uno cuenta c
 Para ver el desarrollo del proyecto con las respectivas conclusiones, ver el archivo ####
 
 Los integrantes del equipo son:
+
 Humberto Ortiz Espinosa, Montserrat Ortiz Pontes y Marian Michelle Romo Martínez
