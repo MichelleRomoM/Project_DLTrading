@@ -4,7 +4,7 @@ El objetivo de este repositorio es mostrar el desarrollo organizado del proyecto
 El proyecto cuenta con los siguientes archivos:
 
 - files
-- technical_analysis
+- ml_trading
 - utils
 - report.ipynb
 - venv
