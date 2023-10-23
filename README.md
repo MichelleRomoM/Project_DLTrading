@@ -14,7 +14,7 @@ El proyecto cuenta con los siguientes archivos:
 
 En estos se encuentra el desarrollo consecuente del proyecto y cada uno cuenta con un tipo de información especifica.
 
-Para ver el desarrollo del proyecto con las respectivas conclusiones, ver el archivo ####
+Para ver el desarrollo del proyecto con las respectivas conclusiones, ver el archivo ml_trading.py
 
 
 
