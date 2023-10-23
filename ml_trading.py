@@ -1,3 +1,5 @@
+## ML Trading
+
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -10,8 +12,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV
 
 # Import datasets
-train_data = pd.read_csv("files/aapl_5m_train.csv")
-validation_data = pd.read_csv("files/aapl_5m_validation.csv")
+train_data = pd.read_csv("aapl_5m_train.csv")
+validation_data = pd.read_csv("aapl_5m_validation.csv")
 
 # Data preparation for logistic regression model
 df = train_data.loc[:,['Datetime','Close']].set_index("Datetime")
@@ -22,6 +24,7 @@ df3 = df2.shift(periods=-1)
 df4 = df3.shift(periods=-1)
 
 a = pd.DataFrame({})
+
 a['X1'] = df
 a['X2'] = df1
 a['X3'] = df2
@@ -29,11 +32,13 @@ a['X4'] = df3
 a['X5'] = df4
 
 a["Y"] = a["X5"].shift(-5) > a["X5"]
+
 a = a.dropna()
 
 # Variables
 x = a.drop('Y', axis = 1)
 y = a['Y']
+
 y_int = y.astype(int)
 
 # Create binary numbers(convert 1s to 1s & 2s to 0s)
@@ -65,10 +70,12 @@ assert len(x) == len(y)
 # Split the data into a training set (70%) and a test set (30%)
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
 
+#Esta mejor sin este pero ayuda a estandarizar
 # Standardize the feature
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
+
 
 # Train svc model
 svc_model = SVC(random_state =42)
@@ -100,25 +107,24 @@ lr_signals = generate_signals(log_pred)
 svc_signals = generate_signals(svc_pred)
 xgb_signals = generate_signals(xgb_pred)
 
-#print("Logistic Regression Signals:", lr_signals)
-#print("SVC Signals:", svc_signals)
-#print("XGBoost Signals:", xgb_signals)
+print("Logistic Regression Signals:", lr_signals)
+print("SVC Signals:", svc_signals)
+print("XGBoost Signals:", xgb_signals)
 
-# Combinations for strategies
+
+# Combinations for stategies
 n = list(range(1, 2**7))
 combinations = list(map(lambda x: [int(bit) for bit in f"{x:07b}"], n))
 
-# Backtesting
-#
-#
-#comission = .0025
+#Backtesting
+comission = .0025
 stop_loss = .025
 take_profit = .025
 cash = 1000000
 positions=[]
 operations=[]
 
-# Prueba backtesting Gptchat
+# Prueba backtesting 
 class Backtester:
     def __init__(self, signals, prices, initial_cash):
         self.signals = signals
@@ -151,13 +157,11 @@ backtester.backtest()
 # Get the portfolio value over time
 portfolio_value = backtester.portfolio_value
 
-
-
-# Optimize parameters
 # Define the parameter grid to search
 param_grid = {
-    'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000],  
-    }
+    'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000],  # Regularization strength values to try
+}
+
 # Define a custom scorer (negative accuracy) for grid search
 scorer = make_scorer(accuracy_score)
 
@@ -186,13 +190,13 @@ def opt_params_svc(x_):
     svc_model.fit(X_train, y_train)
     svc_pred = svc_model.predict(X_test)
     acc = accuracy_score(y_test, svc_pred)
-    
-    return -acc 
+
+    return -acc
 
 def opt_params_xgb(x_:np.array) -> float:
     gamma, reg_alpha = x_ #unpack parameters
     n_estimators = 10
-    
+
     # X Y
     boosted_model = xgboost.XGBClassifier(n_estimators=n_estimators,
                                   gamma=gamma,
@@ -202,7 +206,7 @@ def opt_params_xgb(x_:np.array) -> float:
     xgb_pred = boosted_model.predict(X_test)
     #sharpe_ratio = calculate_sharpe_ratio(y_validation, xgb_pred)
     acc = accuracy_score(y_test, xgb_pred)
-    
+
     return -acc
 
 initial_C = 0.1
@@ -262,8 +266,8 @@ print(f"SVC Profit: {profit_svc:.2f}")
 print(f"XGBoost Profit: {profit_xgb:.2f}")
 
 # Use the optimal models with the validation data
-svc_pred_validation = svc_model.predict(X_validation)
-xgb_pred_validation = xgb_model.predict(X_validation)
+svc_pred_validation = svc_model.predict(X_test)
+xgb_pred_validation = xgb_model.predict(X_test)
 
 # Generate signals for the validation dataset
 svc_signals_validation = generate_signals(svc_pred_validation)
@@ -294,3 +298,14 @@ final_price = validation_data.iloc[-1]["Close"]
 profit_buy_hold = (final_price - initial_price) * (initial_cash / initial_price)
 
 print(f"Buy and Hold Profit (Validation): {profit_buy_hold:.2f}")
+
+
+
+
+
+
+
+
+
+
+
