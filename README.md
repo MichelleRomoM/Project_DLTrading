@@ -1,10 +1,10 @@
-# Project_MLTrading
-El objetivo de este repositorio es mostrar el desarrollo organizado del proyecto de ML Trading de la materia de microestructuras y sistemas de trading.
+# Deep Learning
+El objetivo de este repositorio es mostrar el desarrollo organizado del proyecto de Deep Learning de la materia de microestructuras y sistemas de trading.
 
 El proyecto cuenta con los siguientes archivos:
 
 - files
-- ml_trading
+- dl_trading
 - utils
 - report.ipynb
 - venv
@@ -14,7 +14,7 @@ El proyecto cuenta con los siguientes archivos:
 
 En estos se encuentra el desarrollo consecuente del proyecto y cada uno cuenta con un tipo de información especifica.
 
-Para ver el desarrollo del proyecto con las respectivas conclusiones, ver el archivo ml_trading.py
+Para ver el desarrollo del proyecto con las respectivas conclusiones, ver el archivo dl_trading.py
 
 
 
