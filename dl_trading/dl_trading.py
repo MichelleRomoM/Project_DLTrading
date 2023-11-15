@@ -24,8 +24,8 @@ from tensorflow.keras.layers import Dense,Conv1D, MaxPooling1D, Flatten,LSTM
 
 
 # Import datasets
-train_data = pd.read_csv("aapl_5m_train.csv")
-validation_data = pd.read_csv("aapl_5m_validation.csv")
+train_data = pd.read_csv("files/aapl_5m_train.csv")
+validation_data = pd.read_csv("files/aapl_5m_validation.csv")
 
 # Data preparation
 df = train_data.loc[:,['Datetime','Close']].set_index("Datetime")
